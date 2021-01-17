@@ -5,6 +5,7 @@ import Footer from '../../components/Footer';
 import FilterCard from '../../components/FilterCard';
 import TaskCard from '../../components/TaskCard';
 import { Container, Content, FilterArea, Title } from './styles';
+// import PageDefault from '../../components/PageDefault';
 
 
 const Home = () => {
@@ -42,41 +43,45 @@ const Home = () => {
 
 
     return (
-        <Container>
-            <Header lateCount={lateCount} clickNotification={Notification} />
-            <FilterArea>
-                <button type="button" onClick={() => setFilterActived("all")}>
-                    <FilterCard title="Todos" actived={filterActived === 'all'} />
-                </button>
-                <button type="button" onClick={() => setFilterActived("today")}>
-                    <FilterCard title="Hoje" actived={filterActived === 'today'} />
-                </button>
-                <button type="button" onClick={() => setFilterActived("week")}>
-                    <FilterCard title="Semana" actived={filterActived === 'week'} />
-                </button>
-                <button type="button" onClick={() => setFilterActived("month")}>
-                    <FilterCard title="Mês" actived={filterActived === 'month'} />
-                </button>
-                <button type="button" onClick={() => setFilterActived("year")}>
-                    <FilterCard title="Ano" actived={filterActived === 'year'} />
-                </button>
-            </FilterArea>
+        <>
+            <Container>
+                <Header lateCount={lateCount} clickNotification={Notification} />
+                <FilterArea>
+                    <button type="button" onClick={() => setFilterActived("all")}>
+                        <FilterCard title="Todos" actived={filterActived === 'all'} />
+                    </button>
+                    <button type="button" onClick={() => setFilterActived("today")}>
+                        <FilterCard title="Hoje" actived={filterActived === 'today'} />
+                    </button>
+                    <button type="button" onClick={() => setFilterActived("week")}>
+                        <FilterCard title="Semana" actived={filterActived === 'week'} />
+                    </button>
+                    <button type="button" onClick={() => setFilterActived("month")}>
+                        <FilterCard title="Mês" actived={filterActived === 'month'} />
+                    </button>
+                    <button type="button" onClick={() => setFilterActived("year")}>
+                        <FilterCard title="Ano" actived={filterActived === 'year'} />
+                    </button>
+                </FilterArea>
 
-            <Title>
+                <Title>
 
-                <h3>{filterActived === 'late' ? 'TAREFAS ATRASADAS' : 'TAREFAS'}</h3>
-            </Title>
+                    <h3>{filterActived === 'late' ? 'TAREFAS ATRASADAS' : 'TAREFAS'}</h3>
+                </Title>
 
-            <Content>
-                {tasks.map(task => (
-                    < TaskCard type={task.type} title={task.title} when={task.when} />
-                ))
-                }
+                <Content>
+                    {tasks.map(task => (
+                        < TaskCard type={task.type} title={task.title} when={task.when} />
+                    ))
+                    }
 
-            </Content>
+                </Content>
+
+            </Container>
 
             <Footer />
-        </Container>
+
+        </>
     )
 }
 
