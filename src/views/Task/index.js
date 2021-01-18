@@ -27,7 +27,7 @@ const Task = () => {
             });
     }, []);
 
-    //salvando banco de dados
+    //salvando banco de dados ok
     const save = useCallback(async () => {
         await api.post('/task', {
             macaddress,
