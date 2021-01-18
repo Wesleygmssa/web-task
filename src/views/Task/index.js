@@ -6,11 +6,14 @@ import TypeIcons from '../../utils/typeIcons';
 import { Container, Form, TypeIcon, Input, TextArea, Options, Save } from './styles';
 import { useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
+import { Redirect } from 'react-router-dom';
 
 
 const Task = () => {
+    const [redirect, setRedirect] = useState(false);
     const [lateCount, setLateCount] = useState();
     const [type, setType] = useState();
+    const [id, setId] = useState();
     const [done, setDone] = useState(false);
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
@@ -30,24 +33,11 @@ const Task = () => {
 
 
     const location = useLocation();
-
-
-    // async function LoadTaskDetails() {
-    //     await api.get(`/task/${location.pathname}`)
-    //         .then(response => {
-    //             setType(response.data.type)
-    //             setDone(response.data.done)
-    //             setTitle(response.data.title)
-    //             setDescription(response.data.description)
-    //             setDate(format(new Date(response.data.when), 'yyyy-MM-dd'))
-    //             setHour(format(new Date(response.data.when), 'HH:mm'))
-    //         })
-    // }
-
     const LoadTaskDetails = useCallback(async () => {
         await api.get(`${location.pathname}`)
             .then(response => {
                 setType(response.data.type)
+                setId(response.data._id)
                 setDone(response.data.done)
                 setTitle(response.data.title)
                 setDescription(response.data.description)
@@ -59,18 +49,72 @@ const Task = () => {
 
     //salvando banco de dados ok
     const save = useCallback(async () => {
-        await api.post('/task', {
+        //validação dos dados
+        if (!title) {
+            return alert('Você precisa informar o título da tarefa');
+        } else if (!description) {
+            return alert('Você precisa informar o descrição da tarefa');
+        } else if (!type) {
+            return alert('Você precisa informar o tipo da tarefa');
+        } else if (!date) {
+            return alert('Você precisa definir a data da tarefa ');
+        } else if (!hour) {
+            return alert('Você precisa definir a hora da tarefa')
+        }
+
+
+        if (id) {
+            await api.put(`${location.pathname}`, {
+                macaddress,
+                done,
+                type,
+                title,
+                description,
+                when: `${date}T${hour}:00.000`
+            }).then(() =>
+                setRedirect(true)
+            ).catch(response => {
+                alert(response.data.error)
+            })
+
+        } else {
+            await api.post('/task', {
+                macaddress,
+                type,
+                title,
+                description,
+                when: `${date}T${hour}:00.000`
+            }).then(() =>
+                setRedirect(true)
+            ).catch(response => {
+                alert(response.data.error)
+            })
+        }
+
+    },
+        [
             macaddress,
             type,
             title,
             description,
-            when: `${date}T${hour}:00.000`
-        }).then(() =>
-            alert('ok')
-        ).catch(response => {
-            alert(response.data.error)
-        })
-    }, [macaddress, type, title, description, date, hour]);
+            date,
+            hour,
+            id,
+            done,
+            location.pathname
+        ]);
+
+
+    const Remove = useCallback(async () => {
+        const res = window.confirm('Deseja realmente remover a tarefa?')
+        if (res) {
+            await api.delete(`${location.pathname}`).then(() => {
+                setRedirect(true)
+            })
+        } else {
+
+        }
+    }, [])
 
     useEffect(() => {
         lateVerify();
@@ -81,6 +125,7 @@ const Task = () => {
 
     return (
         <Container>
+            {redirect && <Redirect to="/" />}
             <Header lateCount={lateCount} clickNotification={Notification} />
             <Form>
                 <TypeIcon>
@@ -153,14 +198,14 @@ const Task = () => {
                         />
                         <span>CONCLUIDO</span>
                     </div>
-                    <button type="button">EXCLUIR</button>
+                    {id && <button type="button" onClick={Remove}>EXCLUIR</button>}
                 </Options>
 
                 <Save>
                     <button
                         type="button" onClick={save}>
-                        Salvar
-                        </button>
+                        {id ? 'Editar' : 'Cadastrar nova tarefa'}
+                    </button>
                 </Save>
             </Form>
             <Footer />

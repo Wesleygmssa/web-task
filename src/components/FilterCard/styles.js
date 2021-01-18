@@ -26,6 +26,9 @@ export const Container = styled.div`
         font-size: 18px;
     }
 
+    transition: all 0.5s;
+
+
     &:hover{
         background: #ee6b26;
     }

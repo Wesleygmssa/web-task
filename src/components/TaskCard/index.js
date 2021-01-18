@@ -4,13 +4,13 @@ import { Container, TopCard, BottomCard } from './styles';
 
 import typeIcons from '../../utils/typeIcons';
 
-const TaskCard = ({ type, title, when }) => {
+const TaskCard = ({ type, title, when, done }) => {
 
     const date = useMemo(() => format(new Date(when), 'dd/MM/yyyy'));
     const hour = useMemo(() => format(new Date(when), 'HH:mm'));
 
     return (
-        <Container>
+        <Container done={done}>
             <TopCard>
                 <img src={typeIcons[type]} alt="" />
                 <h3>{title}</h3>

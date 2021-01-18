@@ -19,6 +19,7 @@ export const TypeIcon = styled.div`
     display: flex;
     justify-content: center;
 
+
     .inative{
         opacity: 0.5;
     }
@@ -32,6 +33,7 @@ export const TypeIcon = styled.div`
         height: 50px;
         margin: 10px;
         cursor: pointer;
+        transition: all 0.5s;
 
         &:hover{
             opacity: 0.5;
@@ -95,6 +97,7 @@ export const Options = styled.div`
         outline: none;
         cursor: pointer;
         font-size: 18px;
+        transition: all 0.5s;
 
         &:hover{
             opacity: 0.7;
@@ -124,6 +127,7 @@ export const Save = styled.div`
         border-radius: 30px;
         cursor: pointer;
         outline:none;
+        transition: all 0.5s;
         
 
         &:hover{

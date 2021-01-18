@@ -38,6 +38,11 @@ export const RightSide = styled.div`
         text-decoration: none;
         margin: 0 10px;
         cursor: pointer;
+        transition: all 0.5s;
+
+        &:hover{
+            color: #EE6B26;
+        }
     
         }
 
@@ -45,6 +50,7 @@ export const RightSide = styled.div`
             border: 0;
             background: none;
             outline: none;
+            transition: all 0.5s;
             
             &:hover{
             color: #EE6B26;
