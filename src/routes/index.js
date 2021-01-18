@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from '../views/Home';
 import Task from '../views/Task';
+import QrCode from '../views/QrCode';
 
 
 const Routes = () => {
@@ -12,6 +13,7 @@ const Routes = () => {
                 <Route exact path="/" component={Home} />
                 <Route path="/task" component={Task} />
                 <Route path="/task/:id" component={Task} />
+                <Route path="/qrcode" component={QrCode} />
             </Switch>
         </BrowserRouter>
     )

@@ -16,12 +16,13 @@ const Header = ({ lateCount, clickNotification }) => {
                 <span className="dividir"></span>
                 <Link to="/task">NOVA TAREFA</Link>
                 <span className="dividir"></span>
-                <Link to="#">SINCRONIZAR CELULAR</Link>
+                <Link to="/qrcode">SINCRONIZAR CELULAR</Link>
                 <span className="dividir"></span>
                 <button id="notification" onClick={clickNotification}>
                     <img src={bell} alt="notificação" />
                     <span>{lateCount}</span>
                 </button>
+
             </RightSide>
         </Container>
     )
