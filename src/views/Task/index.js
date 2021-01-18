@@ -4,12 +4,13 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import TypeIcons from '../../utils/typeIcons';
 import { Container, Form, TypeIcon, Input, TextArea, Options, Save } from './styles';
+import { useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
 
 
 const Task = () => {
     const [lateCount, setLateCount] = useState();
     const [type, setType] = useState();
-    // const [id, setId] = useState();
     const [done, setDone] = useState(false);
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
@@ -26,6 +27,35 @@ const Task = () => {
                 setLateCount(response.data.length);
             });
     }, []);
+
+
+    const location = useLocation();
+
+
+    // async function LoadTaskDetails() {
+    //     await api.get(`/task/${location.pathname}`)
+    //         .then(response => {
+    //             setType(response.data.type)
+    //             setDone(response.data.done)
+    //             setTitle(response.data.title)
+    //             setDescription(response.data.description)
+    //             setDate(format(new Date(response.data.when), 'yyyy-MM-dd'))
+    //             setHour(format(new Date(response.data.when), 'HH:mm'))
+    //         })
+    // }
+
+    const LoadTaskDetails = useCallback(async () => {
+        await api.get(`${location.pathname}`)
+            .then(response => {
+                setType(response.data.type)
+                setDone(response.data.done)
+                setTitle(response.data.title)
+                setDescription(response.data.description)
+                setDate(format(new Date(response.data.when), 'yyyy-MM-dd'))
+                setHour(format(new Date(response.data.when), 'HH:mm'))
+            })
+    }, [location.pathname])
+
 
     //salvando banco de dados ok
     const save = useCallback(async () => {
@@ -44,7 +74,8 @@ const Task = () => {
 
     useEffect(() => {
         lateVerify();
-    }, [lateVerify]);
+        LoadTaskDetails();
+    }, [lateVerify, LoadTaskDetails]);
 
 
 
@@ -54,8 +85,7 @@ const Task = () => {
             <Form>
                 <TypeIcon>
                     {TypeIcons.map((icon, index) => (
-                        index > 0 &&
-                        <button type="button" onClick={() => (setType(index))}>
+                        index > 0 && <button key={icon} type="button" onClick={() => (setType(index))}>
                             <img
                                 src={icon} alt="Tipo da tarefa"
                                 className={type && type !== index && 'inative'}

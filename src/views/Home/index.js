@@ -5,6 +5,7 @@ import Footer from '../../components/Footer';
 import FilterCard from '../../components/FilterCard';
 import TaskCard from '../../components/TaskCard';
 import { Container, Content, FilterArea, Title } from './styles';
+import { Link } from 'react-router-dom';
 // import PageDefault from '../../components/PageDefault';
 
 
@@ -71,7 +72,9 @@ const Home = () => {
 
                 <Content>
                     {tasks.map(task => (
-                        < TaskCard type={task.type} title={task.title} when={task.when} />
+                        <Link key={task._id} to={`/task/${task._id}`}>
+                            < TaskCard type={task.type} title={task.title} when={task.when} />
+                        </Link>
                     ))
                     }
 
