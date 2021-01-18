@@ -86,7 +86,6 @@ const Task = () => {
                         }}
                         value={description} //mudando o estado
                     />
-
                 </TextArea>
 
                 <Input>
